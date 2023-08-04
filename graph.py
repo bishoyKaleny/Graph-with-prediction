@@ -4,7 +4,7 @@ class TreeNode:
         self.prediction=prediction
         self.children = []
 
-    def add_child(self, child):
+    def add_child(self, child): #adding child
         if isinstance(child, TreeNode):
             self.children.append(child)
         else:
@@ -23,13 +23,17 @@ class TreeNode:
         return ret
 
     def __str__(self, level=0):
-        #ret=f"\t*{level} {str(self.data)} prediction: {str(self.prediction)} \n"
         ret = "\t" * level + str(self.data) +"\n"
         for child in self.children:
             ret += child.__str__(level + 1)
         return ret
     
     def get_prediction_childeren(self):
+        '''
+        This method is to find the predictions of the childeren of a specific node in order to
+        be used in the implementation of the algorithm since you can see the predictions of the node
+        that you visited and its childeren
+        '''
         node_prediction=self.prediction
         hash_predictions={f'{self.data}':self.prediction}
         for child in self.children:
@@ -59,7 +63,7 @@ if __name__ == "__main__":
     # Print the tree
     print("Tree structure:")
     print(root)
-    print(child1.get_prediction_childeren())
+    print(root.get_prediction_childeren())
 
     
         
