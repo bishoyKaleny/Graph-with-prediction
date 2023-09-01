@@ -39,6 +39,11 @@ class TreeNode:
         for child in self.children:
             hash_predictions[child.data]=child.prediction
         return hash_predictions
+    
+class Tree:
+    def __init__(self,root,distane) -> None:
+        self.root=root
+        self.distance=distane
             
 # Example usage:
 if __name__ == "__main__":
@@ -59,6 +64,7 @@ if __name__ == "__main__":
     child1.add_child(child1_2)
 
     child2.add_child(child2_1)
+    tree=Tree(root)
 
     # Print the tree
     print("Tree structure:")
