@@ -1,10 +1,11 @@
 class TreeNode:
-    def __init__(self, data,prediction,level,anchor=None,is_goal=False): #need to edit the prediction so it can be automaticaly the right prediction
+    def __init__(self, data,prediction,level,parent,anchor=None,is_goal=False): #need to edit the prediction so it can be automaticaly the right prediction
         self.data = data
         self.prediction=prediction
         self.children = []
         self.level=level
         self.anchor=anchor
+        self.parent=parent
 
     def add_child(self, child): #adding child
         if isinstance(child, TreeNode):
@@ -41,21 +42,26 @@ class TreeNode:
         for child in self.children:
             hash_predictions[child.data]=child.prediction
         return hash_predictions
+    def calculate_anchor(self, D):
+        alpha = 0.5 * (D + self.level - self.prediction)
+        if alpha < 0 or not alpha.is_integer():
+            self.anchor = None
+        else:
+            # Traverse up the tree to find the ancestor at level alpha
+            current = self
+            while current and current.level != alpha:
+                current = current.parent
+            self.anchor = current
+    def calculate_load(self):
+        self.load=sum(1 for child in self.children if child.anchor == self)
     
 class Tree:
     def __init__(self,root,distane) -> None:
         self.root=root
         self.distance=distane
-def calculate_anchor(tree:Tree,node:TreeNode):
-    alpha = 0.5 * (tree.distance + node.level - node.prediction)
-    if alpha < 0 or not alpha.is_integer():
-        node.anchor = None
-    else:
-        # Traverse up the tree to find the ancestor at level alpha
-        current = node
-        while current and current.level != alpha:
-            current = current.parent
-        node.anchor = current
+
+
+
 # Example usage:
 if __name__ == "__main__":
     # Create the tree structure
